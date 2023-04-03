@@ -14,6 +14,7 @@ importers:
       eslint: ^8.37.0
       eslint-config-prettier: ^8.8.0
       eslint-plugin-prettier: ^4.2.1
+      eslint-plugin-simple-import-sort: ^10.0.0
       husky: ^8.0.3
       prettier: ^2.8.7
       rollup: ^3.20.2
@@ -29,6 +30,7 @@ importers:
       eslint: 8.37.0
       eslint-config-prettier: 8.8.0_eslint@8.37.0
       eslint-plugin-prettier: 4.2.1_ybb3aapb7235womryl2tm5ze2u
+      eslint-plugin-simple-import-sort: 10.0.0_eslint@8.37.0
       husky: 8.0.3
       prettier: 2.8.7
       rollup: 3.20.2
@@ -989,6 +991,14 @@ packages:
       eslint-config-prettier: 8.8.0_eslint@8.37.0
       prettier: 2.8.7
       prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-simple-import-sort/10.0.0_eslint@8.37.0:
+    resolution: {integrity: sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==}
+    peerDependencies:
+      eslint: '>=5.0.0'
+    dependencies:
+      eslint: 8.37.0
     dev: true
 
   /eslint-scope/5.1.1:
