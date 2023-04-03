@@ -12,7 +12,9 @@ export default [
   {
     input: `${pkgPath}/${module}`,
     output: {
-      file: `${pkgDistPath}/index.js`
+      file: `${pkgDistPath}/index.js`,
+      name: 'react',
+      format: 'umd'
     },
     plugins: [
       ...getBaseRollupPlugins(),
@@ -23,7 +25,7 @@ export default [
           name,
           description,
           version,
-          module: 'index.js'
+          main: 'index.js'
         })
       })
     ]
@@ -33,10 +35,14 @@ export default [
     input: `${pkgPath}/src/jsx.ts`,
     output: [
       {
-        file: `${pkgDistPath}/jsx-runtime.js`
+        file: `${pkgDistPath}/jsx-runtime.js`,
+        name: 'jsx-runtime',
+        format: 'umd'
       },
       {
-        file: `${pkgDistPath}/jsx-dev-runtime.js`
+        file: `${pkgDistPath}/jsx-dev-runtime.js`,
+        name: 'jsx-dev-runtime',
+        format: 'umd'
       }
     ],
     plugins: getBaseRollupPlugins()
