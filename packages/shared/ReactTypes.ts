@@ -11,3 +11,5 @@ export interface ReactElement {
   ref: Ref
   __mark: 'Shuo'
 }
+
+export type Action<State> = State | ((prevState: State) => State)
