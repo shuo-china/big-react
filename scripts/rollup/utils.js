@@ -1,4 +1,5 @@
 import cjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
 import fs from 'fs'
 import path from 'path'
 import ts from 'rollup-plugin-typescript2'
@@ -21,6 +22,6 @@ export function getPackageJSON(pkgName) {
 }
 
 export function getBaseRollupPlugins(config = {}) {
-  const { typescript = {} } = config
-  return [cjs(), ts(typescript)]
+  const { alias = { __DEV__: true }, typescript = {} } = config
+  return [replace(alias), cjs(), ts(typescript)]
 }
