@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.jsx,.tsx --fix --quiet ./packages",
     "commit": "git-cz",
-    "build:dev": "rimraf dist && rollup --config scripts/rollup/react.config.js --bundleConfigAsCjs"
+    "build:dev": "rimraf dist && rollup --config scripts/rollup/dev.config.js --bundleConfigAsCjs"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
+    "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-replace": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^5.57.0",

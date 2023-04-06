@@ -1,7 +1,9 @@
 import {
   appendInitialChild,
+  Container,
   createInstance,
-  createTextInstance
+  createTextInstance,
+  Instance
 } from 'hostConfig'
 
 import { FiberNode } from './fiber'
@@ -50,7 +52,7 @@ export const completeWork = (wip: FiberNode) => {
 // 	<Domo />   ---> <div>123</div>
 // 	<span>456</span>
 // </div>
-function appendAllChildren(parent: any, wip: FiberNode) {
+function appendAllChildren(parent: Container | Instance, wip: FiberNode) {
   let node = wip.child
 
   while (node !== null) {
@@ -62,6 +64,7 @@ function appendAllChildren(parent: any, wip: FiberNode) {
       continue
     }
 
+    // ??? 想不到什么场景可以进入
     if (node === wip) {
       return
     }
