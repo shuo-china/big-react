@@ -6,6 +6,7 @@ import { HostComponent, HostRoot, HostText } from './workTags'
 
 let nextEffect: FiberNode | null = null
 
+// 从下至上执行commitMuationEffectsOnFiber
 export const commitMutationEffects = (finishedWork: FiberNode) => {
   nextEffect = finishedWork
 
@@ -17,7 +18,7 @@ export const commitMutationEffects = (finishedWork: FiberNode) => {
     ) {
       nextEffect = child
     } else {
-      // 叶子节点或者没有subtreeFlags了，就没必要再往下遍历了
+      // 到达叶子节点或者没有subtreeFlags，就没必要再往下遍历了
       up: while (nextEffect !== null) {
         commitMuationEffectsOnFiber(nextEffect)
         const sibling: FiberNode | null = nextEffect.sibling
@@ -32,7 +33,6 @@ export const commitMutationEffects = (finishedWork: FiberNode) => {
   }
 }
 
-// 这个finishedWork一定存在flags
 const commitMuationEffectsOnFiber = (finishedWork: FiberNode) => {
   const flags = finishedWork.flags
   // ??? if (flags & Placement),老师的写法应该任何情况都能进去 0 or Placement
@@ -40,6 +40,8 @@ const commitMuationEffectsOnFiber = (finishedWork: FiberNode) => {
     commitPlacement(finishedWork)
     // 移除Placement
     finishedWork.flags &= ~Placement
+  } else {
+    console.error('debugger', 'commitMuationEffectsOnFiber')
   }
 }
 
@@ -48,9 +50,11 @@ const commitPlacement = (finishedWork: FiberNode) => {
     console.warn('开始执行Placement', finishedWork)
   }
 
+  // 寻找到该fiber的父级DOM
   const hostParent = getHostParent(finishedWork)
 
   if (hostParent !== null) {
+    // 将该fiber对应的DOM添加到hostParent下
     appendPlacementNodeIntoContainer(finishedWork, hostParent)
   }
 }
@@ -70,7 +74,7 @@ function getHostParent(fiber: FiberNode): Container | Instance | null {
   }
 
   if (__DEV__) {
-    console.warn('为找到Host Parent')
+    console.warn('未找到Host Parent')
   }
 
   return null
@@ -80,7 +84,7 @@ function getHostParent(fiber: FiberNode): Container | Instance | null {
 //   <Demo />
 //   <span></span>
 // </App>
-// 将finishedWork对应的dom添加到hostParent
+// 将finishedWork对应的DOM添加到hostParent
 function appendPlacementNodeIntoContainer(
   finishedWork: FiberNode,
   hostParent: Container | Instance

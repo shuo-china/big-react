@@ -12,6 +12,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     currentFiber: FiberNode | null,
     element: ReactElement
   ) {
+    // 根据jsx创建fiber
     const fiber = createFiberFromElement(element)
     fiber.return = returnFiber
     return fiber
@@ -28,6 +29,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
   }
 
   function placeSingleChild(fiber: FiberNode) {
+    // 如果可以收集副作用，且当前fiber是新增的
     if (shouldTrackEffects && fiber.alternate === null) {
       fiber.flags |= Placement
     }
@@ -42,6 +44,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     // 单节点
     if (typeof newChild === 'object' && newChild !== null) {
       if (newChild.$$typeof === REACT_ELEMENT_TYPE) {
+        // 如果是首次渲染，根据newChild创建fiber,并标记上placement
         return placeSingleChild(
           reconcileSingleElement(returnFiber, currentFiber, newChild)
         )
@@ -55,6 +58,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     // 多节点
     // 文本节点
     if (typeof newChild === 'string' || typeof newChild === 'number') {
+      // 如果是首次渲染，根据newChild创建fiber,并标记上placement
       return placeSingleChild(
         reconcileSingleTextNode(returnFiber, currentFiber, newChild)
       )

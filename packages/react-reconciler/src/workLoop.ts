@@ -7,16 +7,19 @@ import { HostRoot } from './workTags'
 
 let workInProgress: FiberNode | null = null
 
+// 创建新的HostRootFiber，将他作为workInProgress最开始Fiber
 function prepareFreshStack(root: FiberRootNode) {
   workInProgress = createWorkInProgress(root.current, {})
 }
 
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
+  // 找到FiberRootNode
   const root = markUpdateFromFiberToRoot(fiber)
+  // 从FiberRootNode开始渲染
   renderRoot(root)
 }
 
-// 从任意Fiber遍历到FiberRootNode
+// 从任意Fiber向上遍历，找到FiberRootNode
 function markUpdateFromFiberToRoot(fiber: FiberNode) {
   // hostRootFiber
   let node = fiber
@@ -64,8 +67,10 @@ function commitRoot(root: FiberRootNode) {
 
   root.finishedWork = null
 
+  // hostRootFiber下层有无副作用
   const subtreeHasEffect =
     (finishedWork.subtreeFlags & MutationMask) !== NoFlags
+  // hostRootFiber有无副作用
   const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags
 
   if (subtreeHasEffect || rootHasEffect) {
@@ -86,6 +91,7 @@ function workLoop() {
 }
 
 function performUnitOfWork(fiber: FiberNode) {
+  // 返回子fiber
   const next = beginWork(fiber)
   fiber.memoizedProps = fiber.pendingProps
 

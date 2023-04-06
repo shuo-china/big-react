@@ -61,6 +61,9 @@ export class FiberRootNode {
   }
 }
 
+//            fiberRootNode
+//         current⬇    ⬆stateNode                      alternate
+// current:   hostRootFiber(包含updateQueue)             ➡ ⬅             wip（复用current）
 export const createWorkInProgress = (
   current: FiberNode,
   pendingProps: Props
@@ -92,6 +95,7 @@ export const createWorkInProgress = (
 // 根据jsx创建Fiber
 export function createFiberFromElement(element: ReactElement): FiberNode {
   const { type, key, props } = element
+  // 先给一个默认的tag
   let fiberTag: WorkTag = FunctionComponent
 
   if (typeof type === 'string') {

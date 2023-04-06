@@ -23,6 +23,7 @@ export const beginWork = (wip: FiberNode) => {
   return null
 }
 
+// 拿到更新队列中的update,执行这个update,拿到新的memoizedState(ReactElement)
 function updateHostRoot(wip: FiberNode) {
   const baseState = wip.memoizedState
   const updateQueue = wip.updateQueue as UpdateQueue<ReactElement>
@@ -36,6 +37,7 @@ function updateHostRoot(wip: FiberNode) {
   return wip.child
 }
 
+// 原生标签
 function updateHostComponent(wip: FiberNode) {
   const nextProps = wip.pendingProps
   const nextChildren = nextProps.children
@@ -43,6 +45,7 @@ function updateHostComponent(wip: FiberNode) {
   return wip.child
 }
 
+// 用父级fiberNode和它下级的jsx生成子fiber,同时给子fiber添加flag
 function reconcileChildren(wip: FiberNode, children: ReactElement) {
   const current = wip.alternate
 

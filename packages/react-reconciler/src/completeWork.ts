@@ -10,6 +10,9 @@ import { FiberNode } from './fiber'
 import { NoFlags } from './fiberFlags'
 import { HostComponent, HostRoot, HostText } from './workTags'
 
+// 自下而上执行
+// 将flag向上冒泡
+// mount的时候构建DOM，赋值到stateNode
 export const completeWork = (wip: FiberNode) => {
   const newProps = wip.pendingProps
   const current = wip.alternate
@@ -21,7 +24,7 @@ export const completeWork = (wip: FiberNode) => {
       } else {
         // 构建DOM
         const instance = createInstance(wip.type, newProps)
-        // 插入到DOM TREE
+        // 将wip下的dom 插入到instance
         appendAllChildren(instance, wip)
         wip.stateNode = instance
       }
@@ -52,6 +55,7 @@ export const completeWork = (wip: FiberNode) => {
 // 	<Domo />   ---> <div>123</div>
 // 	<span>456</span>
 // </div>
+// parent: 父级DOM   wip: 父级Fiber
 function appendAllChildren(parent: Container | Instance, wip: FiberNode) {
   let node = wip.child
 
@@ -66,6 +70,7 @@ function appendAllChildren(parent: Container | Instance, wip: FiberNode) {
 
     // ??? 想不到什么场景可以进入
     if (node === wip) {
+      console.error('debugger appendAllChildren')
       return
     }
 
@@ -81,6 +86,7 @@ function appendAllChildren(parent: Container | Instance, wip: FiberNode) {
   }
 }
 
+// 从下而上，给wip赋值subtreeFlags,将下一级的child和sibling的flags都汇总上来
 function bubbleProperties(wip: FiberNode) {
   let subtreeFlags = NoFlags
   let child = wip.child
@@ -89,6 +95,7 @@ function bubbleProperties(wip: FiberNode) {
     subtreeFlags |= child.subtreeFlags
     subtreeFlags |= child.flags
 
+    // ??? 让所有的child的return都指向自己
     child.return = wip
     child = child.sibling
   }
