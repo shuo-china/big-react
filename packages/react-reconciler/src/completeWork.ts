@@ -8,7 +8,12 @@ import {
 
 import { FiberNode } from './fiber'
 import { NoFlags } from './fiberFlags'
-import { HostComponent, HostRoot, HostText } from './workTags'
+import {
+  FunctionComponent,
+  HostComponent,
+  HostRoot,
+  HostText
+} from './workTags'
 
 // 自下而上执行
 // 将flag向上冒泡
@@ -29,7 +34,7 @@ export const completeWork = (wip: FiberNode) => {
         wip.stateNode = instance
       }
       bubbleProperties(wip)
-      return null
+      break
     case HostText:
       if (current !== null && wip.stateNode) {
         // update
@@ -39,10 +44,13 @@ export const completeWork = (wip: FiberNode) => {
         wip.stateNode = instance
       }
       bubbleProperties(wip)
-      return null
+      break
     case HostRoot:
       bubbleProperties(wip)
-      return null
+      break
+    case FunctionComponent:
+      bubbleProperties(wip)
+      break
     default:
       if (__DEV__) {
         console.warn('未处理的completeWork', wip)

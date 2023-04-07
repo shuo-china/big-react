@@ -35,13 +35,11 @@ export const commitMutationEffects = (finishedWork: FiberNode) => {
 
 const commitMuationEffectsOnFiber = (finishedWork: FiberNode) => {
   const flags = finishedWork.flags
-  // ??? if (flags & Placement),老师的写法应该任何情况都能进去 0 or Placement
+
   if ((flags & Placement) !== NoFlags) {
     commitPlacement(finishedWork)
     // 移除Placement
     finishedWork.flags &= ~Placement
-  } else {
-    console.error('debugger', 'commitMuationEffectsOnFiber')
   }
 }
 

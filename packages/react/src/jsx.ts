@@ -82,7 +82,7 @@ export const jsxDEV = (type: ElementType, config: any) => {
     if (Object.prototype.hasOwnProperty.call(config, prop)) {
       props[prop] = val
     }
-
-    return ReactElement(type, key, ref, props)
   }
+
+  return ReactElement(type, key, ref, props)
 }
