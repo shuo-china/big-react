@@ -9,7 +9,7 @@ import { Container } from './hostConfig'
 // ReactDOM.createRoot(root).render(<App />)
 export function createRoot(container: Container) {
   const root = createContainer(container)
-
+  console.log(2)
   return {
     render(element: ReactElement) {
       updateContainer(element, root)
