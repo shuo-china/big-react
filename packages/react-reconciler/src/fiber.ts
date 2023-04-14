@@ -39,6 +39,7 @@ export class FiberNode {
     // 工作单元
     this.pendingProps = pendingProps
     this.memoizedProps = null
+    // 如果是函数式组件，这个就是hooks的链表的第一个hook
     this.memoizedState = null
     this.updateQueue = null
 
