@@ -13,7 +13,7 @@ export default [
     input: `${pkgPath}/${module}`,
     output: {
       file: `${pkgDistPath}/index.js`,
-      name: 'react',
+      name: 'React',
       format: 'umd'
     },
     plugins: [

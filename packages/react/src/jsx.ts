@@ -27,14 +27,14 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
     const val = config[prop]
 
     if (prop === 'key') {
-      if (val != null) {
+      if (val !== undefined) {
         key = '' + val
       }
       continue
     }
 
     if (prop === 'ref') {
-      if (val != null) {
+      if (val !== undefined) {
         ref = val
       }
       continue
@@ -43,18 +43,18 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
     if (Object.prototype.hasOwnProperty.call(config, prop)) {
       props[prop] = val
     }
-
-    const maybeChildrenLength = maybeChildren.length
-    if (maybeChildrenLength) {
-      if (maybeChildrenLength === 1) {
-        props.children = maybeChildren[0]
-      } else {
-        props.children = maybeChildren
-      }
-    }
-
-    return ReactElement(type, key, ref, props)
   }
+
+  const maybeChildrenLength = maybeChildren.length
+  if (maybeChildrenLength) {
+    if (maybeChildrenLength === 1) {
+      props.children = maybeChildren[0]
+    } else {
+      props.children = maybeChildren
+    }
+  }
+
+  return ReactElement(type, key, ref, props)
 }
 
 export const jsxDEV = (type: ElementType, config: any) => {
@@ -66,14 +66,14 @@ export const jsxDEV = (type: ElementType, config: any) => {
     const val = config[prop]
 
     if (prop === 'key') {
-      if (val != null) {
+      if (val !== undefined) {
         key = '' + val
       }
       continue
     }
 
     if (prop === 'ref') {
-      if (val != null) {
+      if (val !== undefined) {
         ref = val
       }
       continue
@@ -85,4 +85,12 @@ export const jsxDEV = (type: ElementType, config: any) => {
   }
 
   return ReactElement(type, key, ref, props)
+}
+
+export function isValidElement(object: any) {
+  return (
+    typeof object === 'object' &&
+    object !== null &&
+    object.$$typeof === REACT_ELEMENT_TYPE
+  )
 }

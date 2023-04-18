@@ -56,7 +56,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       }
     }
     // 多节点
-    // 文本节点
+    // 新节点是文本节点
     if (typeof newChild === 'string' || typeof newChild === 'number') {
       // 如果是首次渲染，根据newChild创建fiber,并标记上placement
       return placeSingleChild(

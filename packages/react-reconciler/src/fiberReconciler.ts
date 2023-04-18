@@ -26,4 +26,5 @@ export function updateContainer(
   enqueueUpdate(hostRootFiber.updateQueue, update)
   // 从hostRootFiber开始调度更新
   scheduleUpdateOnFiber(hostRootFiber)
+  return element
 }
