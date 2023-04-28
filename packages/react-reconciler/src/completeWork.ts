@@ -7,13 +7,17 @@ import {
 } from 'hostConfig'
 
 import { FiberNode } from './fiber'
-import { NoFlags } from './fiberFlags'
+import { NoFlags, Update } from './fiberFlags'
 import {
   FunctionComponent,
   HostComponent,
   HostRoot,
   HostText
 } from './workTags'
+
+function markUpdate(fiber: FiberNode) {
+  fiber.flags |= Update
+}
 
 // 自下而上执行
 // 将flag向上冒泡
@@ -38,6 +42,11 @@ export const completeWork = (wip: FiberNode) => {
     case HostText:
       if (current !== null && wip.stateNode) {
         // update
+        const oldText = current.memoizedState.content
+        const newText = newProps.content
+        if (oldText !== newText) {
+          markUpdate(wip)
+        }
       } else {
         // 构建DOM
         const instance = createTextInstance(newProps.content)
